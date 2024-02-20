@@ -13,7 +13,7 @@ import { rm } from "fs";
      const { name, price, stock, category } = req.body;
       const photo = req.file;
   
-      if (!photo) return next(new ErrorHandler("Please Add Photo", 4000));
+      if (!photo) return next(new ErrorHandler("Please Add Photo", 400));
   
       if (!name || !price || !stock || !category) {
        rm(photo.path, () => {
