@@ -3,11 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllCategories = exports.getlatestProducts = exports.newProduct = void 0;
+exports.deleteProduct = exports.updateProduct = exports.getSingleProduct = exports.getAdminProducts = exports.getAllCategories = exports.getlatestProducts = exports.newProduct = void 0;
 const error_1 = require("../middlewares/error");
 const product_js_1 = require("../models/product.js");
 const utillity_class_js_1 = __importDefault(require("../utils/utillity-class.js"));
 const fs_1 = require("fs");
+const products_1 = __importDefault(require("../routes/products"));
 exports.newProduct = (0, error_1.TryCatch)(async (req, res, next) => {
     const { name, price, stock, category } = req.body;
     const photo = req.file;
@@ -43,5 +44,59 @@ exports.getAllCategories = (0, error_1.TryCatch)(async (req, res, next) => {
     return res.status(200).json({
         success: true,
         cateogories,
+    });
+});
+exports.getAdminProducts = (0, error_1.TryCatch)(async (req, res, next) => {
+    const Products = await product_js_1.Product.find({});
+    return res.status(200).json({
+        success: true,
+        products: products_1.default,
+    });
+});
+exports.getSingleProduct = (0, error_1.TryCatch)(async (req, res, next) => {
+    const product = await product_js_1.Product.findById(req.params.id);
+    return res.status(200).json({
+        success: true,
+        product,
+    });
+});
+exports.updateProduct = (0, error_1.TryCatch)(async (req, res, next) => {
+    const { id } = req.params;
+    const { name, price, stock, category } = req.body;
+    const photo = req.file;
+    const product = await product_js_1.Product.findById(id);
+    if (!product)
+        return next(new utillity_class_js_1.default("Product Not Found", 404));
+    if (photo) {
+        (0, fs_1.rm)(product.photo, () => {
+            console.log("Old Photo Deleted");
+        });
+        product.photo = photo.path;
+    }
+    if (name)
+        product.name = name;
+    if (price)
+        product.price = price;
+    if (stock)
+        product.stock = stock;
+    if (category)
+        product.category = category;
+    await product.save();
+    return res.status(200).json({
+        success: true,
+        message: "Product Updated Successfully",
+    });
+});
+exports.deleteProduct = (0, error_1.TryCatch)(async (req, res, next) => {
+    const product = await product_js_1.Product.findById(req.params.id);
+    if (!product)
+        return next(new utillity_class_js_1.default("Product Not Found", 404));
+    (0, fs_1.rm)(product.photo, () => {
+        console.log("Product Photo Deleted");
+    });
+    await product.deleteOne();
+    return res.status(200).json({
+        success: true,
+        message: "Product Deleted Successfully",
     });
 });

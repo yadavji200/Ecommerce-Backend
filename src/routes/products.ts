@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { adminOnly } from "../middlewares/auth.js";
-import { getAllCategories, getlatestProducts, newProduct } from "../controllers/product.js";
+import { deleteProduct, getAdminProducts, getAllCategories, getSingleProduct, getlatestProducts, newProduct, updateProduct } from "../controllers/product.js";
 import {singleUpload } from "../middlewares/multer";
 import { error } from "console";
 import { Product } from "../models/product";
@@ -20,9 +20,24 @@ const deleteOneDoc = async(req:Request,res:Response,next:NextFunction) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
     }
-app.post("/new", adminOnly, singleUpload, newProduct);
-app.delete('/',deleteOneDoc);
-app.get("/latest", getlatestProducts);
-app.get("/cateogories", getAllCategories);
+    //To Create New Product  - /api/v1/product/new
+     app.post("/new", adminOnly, singleUpload, newProduct);
+
+       app.delete('/',deleteOneDoc);
+
+      //To get last 10 Products  - /api/v1/product/latest
+      app.get("/latest", getlatestProducts);
+
+      //To get all unique Categories  - /api/v1/product/categories
+      app.get("/cateogories", getAllCategories);
+
+      //To get all Products   - /api/v1/product/admin-products
+      app.get("/admin-products", getAdminProducts);
+
+      app.route("/:id")
+      .get(getSingleProduct)
+      .put(singleUpload,updateProduct)
+      .delete(deleteProduct);
+
 
 export default app;

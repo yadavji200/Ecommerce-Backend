@@ -23,8 +23,17 @@ const deleteOneDoc = async (req, res, next) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+//To Create New Product  - /api/v1/product/new
 app.post("/new", auth_js_1.adminOnly, multer_1.singleUpload, product_js_1.newProduct);
 app.delete('/', deleteOneDoc);
+//To get last 10 Products  - /api/v1/product/latest
 app.get("/latest", product_js_1.getlatestProducts);
+//To get all unique Categories  - /api/v1/product/categories
 app.get("/cateogories", product_js_1.getAllCategories);
+//To get all Products   - /api/v1/product/admin-products
+app.get("/admin-products", product_js_1.getAdminProducts);
+app.route("/:id")
+    .get(product_js_1.getSingleProduct)
+    .put(multer_1.singleUpload, product_js_1.updateProduct)
+    .delete(product_js_1.deleteProduct);
 exports.default = app;
