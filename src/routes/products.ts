@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { adminOnly } from "../middlewares/auth.js";
-import { deleteProduct, getAdminProducts, getAllCategories, getSingleProduct, getlatestProducts, newProduct, updateProduct } from "../controllers/product.js";
+import { deleteProduct, getAdminProducts, getAllCategories, getAllProducts, getSingleProduct, getlatestProducts, newProduct, updateProduct } from "../controllers/product.js";
 import {singleUpload } from "../middlewares/multer";
 import { error } from "console";
 import { Product } from "../models/product";
@@ -24,6 +24,10 @@ const deleteOneDoc = async(req:Request,res:Response,next:NextFunction) => {
      app.post("/new", adminOnly, singleUpload, newProduct);
 
        app.delete('/',deleteOneDoc);
+
+       //To get all Products with filters  - /api/v1/product/all
+       app.get("/all", getAllProducts);
+
 
       //To get last 10 Products  - /api/v1/product/latest
       app.get("/latest", getlatestProducts);

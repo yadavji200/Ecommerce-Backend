@@ -124,3 +124,12 @@ export const deleteProduct = TryCatch(async (req, res, next) => {
     message: "Product Deleted Successfully",
   });
 });
+export const getAllProducts = TryCatch(async(req,res,next) =>{
+  const Products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+
+  return res.status(200).json({
+   success: true,
+   Products,
+  });
+
+});
