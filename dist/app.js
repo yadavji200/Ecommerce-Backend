@@ -15,6 +15,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const user_js_1 = __importDefault(require("./routes/user.js"));
 const products_js_1 = __importDefault(require("./routes/products.js"));
 const order_js_1 = __importDefault(require("./routes/order.js"));
+const payment_js_1 = __importDefault(require("./routes/payment.js"));
 (0, dotenv_1.config)({
     path: "./.env",
 });
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", user_js_1.default);
 app.use("/api/v1/product", products_js_1.default);
 app.use("/api/v1/order", order_js_1.default);
+app.use("/api/v1/payment", payment_js_1.default);
 app.use("/uploads", express_1.default.static("uploads"));
 app.use(error_js_1.errorMiddleware);
 app.listen(port, () => {
