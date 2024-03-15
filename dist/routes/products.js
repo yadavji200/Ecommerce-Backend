@@ -26,6 +26,8 @@ const deleteOneDoc = async (req, res, next) => {
 //To Create New Product  - /api/v1/product/new
 app.post("/new", auth_js_1.adminOnly, multer_1.singleUpload, product_js_1.newProduct);
 app.delete('/', deleteOneDoc);
+//To get all Products with filters  - /api/v1/product/all
+app.get("/all", product_js_1.getAllProducts);
 //To get last 10 Products  - /api/v1/product/latest
 app.get("/latest", product_js_1.getlatestProducts);
 //To get all unique Categories  - /api/v1/product/categories
