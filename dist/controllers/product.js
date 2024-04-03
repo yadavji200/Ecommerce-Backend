@@ -27,6 +27,7 @@ exports.getlatestProducts = (0, error_js_1.TryCatch)(async (req, res, next) => {
 });
 // Revalidate on New,Update,Delete Product & on New Order
 exports.getAllCategories = (0, error_js_1.TryCatch)(async (req, res, next) => {
+    console.log("Here in .................................................");
     let categories;
     if (app_js_1.myCache.has("categories"))
         categories = JSON.parse(app_js_1.myCache.get("categories"));

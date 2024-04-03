@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getChartData = exports.getInventories = exports.calculatePercentage = exports.reduceStock = exports.invalidateCache = exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = require("../app");
-const product_1 = require("../models/product");
+const app_js_1 = require("../app.js");
+const product_js_1 = require("../models/product.js");
 const connectDB = (uri) => {
     mongoose_1.default
         .connect(uri, {
@@ -27,8 +27,7 @@ const invalidateCache = ({ product, order, admin, userId, orderId, productId, })
             productKeys.push(`product-${productId}`);
         if (typeof productId === "object")
             productId.forEach((i) => productKeys.push(`product-${i}`));
-        //   console.log("lol");
-        app_1.myCache.del(productKeys);
+        app_js_1.myCache.del(productKeys);
     }
     if (order) {
         const ordersKeys = [
@@ -36,10 +35,10 @@ const invalidateCache = ({ product, order, admin, userId, orderId, productId, })
             `my-orders-${userId}`,
             `order-${orderId}`,
         ];
-        app_1.myCache.del(ordersKeys);
+        app_js_1.myCache.del(ordersKeys);
     }
     if (admin) {
-        app_1.myCache.del([
+        app_js_1.myCache.del([
             "admin-stats",
             "admin-pie-charts",
             "admin-bar-charts",
@@ -51,7 +50,7 @@ exports.invalidateCache = invalidateCache;
 const reduceStock = async (orderItems) => {
     for (let i = 0; i < orderItems.length; i++) {
         const order = orderItems[i];
-        const product = await product_1.Product.findById(order.productId);
+        const product = await product_js_1.Product.findById(order.productId);
         if (!product)
             throw new Error("Product Not Found");
         product.stock -= order.quantity;
@@ -67,7 +66,7 @@ const calculatePercentage = (thisMonth, lastMonth) => {
 };
 exports.calculatePercentage = calculatePercentage;
 const getInventories = async ({ categories, productsCount, }) => {
-    const categoriesCountPromise = categories.map((category) => product_1.Product.countDocuments({ category }));
+    const categoriesCountPromise = categories.map((category) => product_js_1.Product.countDocuments({ category }));
     const categoriesCount = await Promise.all(categoriesCountPromise);
     const categoryCount = [];
     categories.forEach((category, i) => {

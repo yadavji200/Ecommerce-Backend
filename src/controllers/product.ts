@@ -31,6 +31,7 @@ export const getlatestProducts = TryCatch(async (req, res, next) => {
 
 // Revalidate on New,Update,Delete Product & on New Order
 export const getAllCategories = TryCatch(async (req, res, next) => {
+  console.log("Here in .................................................");
   let categories;
 
   if (myCache.has("categories"))
