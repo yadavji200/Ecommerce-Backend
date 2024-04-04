@@ -29,7 +29,7 @@ const schema = new mongoose_1.default.Schema({
         },
     },
     user: {
-        type: String,
+        type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },

@@ -4,13 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const user_1 = require("../controllers/user");
-const auth_1 = require("../middlewares/auth");
+const user_js_1 = require("../controllers/user.js");
+const auth_js_1 = require("../middlewares/auth.js");
 const app = express_1.default.Router();
 // route - /api/v1/user/new
-app.post("/new", user_1.newUser);
+app.post("/new", user_js_1.newUser);
 // Route - /api/v1/user/all
-app.get("/all", auth_1.adminOnly, user_1.getAllUsers);
+app.get("/all", auth_js_1.adminOnly, user_js_1.getAllUsers);
 // Route - /api/v1/user/dynamicID
-app.route("/:id").get(user_1.getUser).delete(auth_1.adminOnly, user_1.deleteUser);
+app.route("/:id").get(user_js_1.getUser).delete(auth_js_1.adminOnly, user_js_1.deleteUser);
 exports.default = app;

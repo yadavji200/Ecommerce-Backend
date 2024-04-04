@@ -31,7 +31,7 @@ export const allOrders = TryCatch(async (req, res, next) => {
 
   if (myCache.has(key)) orders = JSON.parse(myCache.get(key) as string);
   else {
-    orders = await Order.find().populate("user", "name");
+    orders = await Order.find().populate("user");
     myCache.set(key, JSON.stringify(orders));
   }
   return res.status(200).json({
@@ -160,4 +160,3 @@ export const deleteOrder = TryCatch(async (req, res, next) => {
     message: "Order Deleted Successfully",
   });
 });
- 

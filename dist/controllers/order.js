@@ -30,7 +30,7 @@ exports.allOrders = (0, error_js_1.TryCatch)(async (req, res, next) => {
     if (app_js_1.myCache.has(key))
         orders = JSON.parse(app_js_1.myCache.get(key));
     else {
-        orders = await order_js_1.Order.find().populate("user", "name");
+        orders = await order_js_1.Order.find().populate("user");
         app_js_1.myCache.set(key, JSON.stringify(orders));
     }
     return res.status(200).json({
